@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.hrw.smartrecyclerviewlibrary.SmartAdapter;
+import com.hrw.smartrecyclerviewlibrary.SmartItemDecoration;
 import com.hrw.smartrecyclerviewlibrary.SmartVH;
 
 import java.util.ArrayList;
@@ -20,15 +21,16 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rv_show);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new SmartItemDecoration());
         List<String> strings = new ArrayList<>();
         strings.add("测试数据一");
         strings.add("测试数据二");
         strings.add("测试数据三");
         strings.add("测试数据四");
-        recyclerView.setAdapter(new SmartAdapter<String>(strings, android.R.layout.test_list_item) {
+        recyclerView.setAdapter(new SmartAdapter<String>(strings, R.layout.item_list_mainactivity) {
             @Override
             protected void bindView(SmartVH holder, String o, int position) {
-                holder.getText(android.R.id.text1).setText(o);
+                holder.getText(R.id.item_list_name).setText(o);
             }
         });
     }

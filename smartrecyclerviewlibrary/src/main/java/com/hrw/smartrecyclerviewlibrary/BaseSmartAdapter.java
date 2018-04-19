@@ -44,4 +44,5 @@ public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> 
 
     protected abstract void bindView(SmartVH holder, T t, int position);
 
+
 }
