@@ -38,11 +38,25 @@ public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> 
     }
 
     @Override
-    public void onBindViewHolder(SmartVH holder, int position) {
+    public void onBindViewHolder(SmartVH holder, final int position) {
         bindView(holder, tList.get(position), position);
+        holder.getItemView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onSmartItemClickListener != null) {
+                    onSmartItemClickListener.onSmartItemClick(tList.get(position), position);
+                }
+            }
+        });
     }
 
     protected abstract void bindView(SmartVH holder, T t, int position);
+
+    OnSmartItemClickListener onSmartItemClickListener;
+
+    public void setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
+        this.onSmartItemClickListener = onSmartItemClickListener;
+    }
 
 
 }

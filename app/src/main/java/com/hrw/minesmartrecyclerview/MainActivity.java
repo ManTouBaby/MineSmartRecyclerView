@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 
+import com.hrw.smartrecyclerviewlibrary.OnSmartItemClickListener;
 import com.hrw.smartrecyclerviewlibrary.SmartAdapter;
 import com.hrw.smartrecyclerviewlibrary.SmartItemDecoration;
 import com.hrw.smartrecyclerviewlibrary.SmartVH;
@@ -27,10 +30,20 @@ public class MainActivity extends AppCompatActivity {
         strings.add("测试数据二");
         strings.add("测试数据三");
         strings.add("测试数据四");
-        recyclerView.setAdapter(new SmartAdapter<String>(strings, R.layout.item_list_mainactivity) {
+        SmartAdapter<String> smartAdapter = new SmartAdapter<String>(strings, R.layout.item_list_mainactivity) {
             @Override
             protected void bindView(SmartVH holder, String o, int position) {
                 holder.getText(R.id.item_list_name).setText(o);
+            }
+        };
+
+        View view = LayoutInflater.from(this).inflate(R.layout.header_recycler, null);
+        smartAdapter.setHeaderView(view);
+        recyclerView.setAdapter(smartAdapter);
+        smartAdapter.setOnSmartItemClickListener(new OnSmartItemClickListener<String>() {
+            @Override
+            public void onSmartItemClick(String s, int position) {
+
             }
         });
     }

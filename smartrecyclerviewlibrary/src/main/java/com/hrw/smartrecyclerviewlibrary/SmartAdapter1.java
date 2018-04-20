@@ -6,26 +6,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author:MtBaby
  * @date:2017/09/17 14:56
- * @desc:
+ * @desc: 齐聚添加多头部、多底部、多item样式、下拉刷新动画、上了加载动画为一体的超级适配器
  */
 
-public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
+public abstract class SmartAdapter1<T> extends BaseSmartAdapter<T> {
+    OnSmartLoadMoreListener onSmartLoadMoreListener;
+    OnSmartRefreshListener onSmartRefreshListener;
+    List<View> headerViews = new ArrayList<>();
+    List<View> footerViews = new ArrayList<>();
+    View refreshView;
+    View loadMoreView;
 
-    private View headerView;
 
-    private final static int VIEW_HEADER = 0;
-    private final static int VIEW_ITEM = 1;
-
-    public SmartAdapter(@NonNull int layoutId) {
+    public SmartAdapter1(@NonNull int layoutId) {
         super(layoutId);
     }
 
-    public SmartAdapter(List<T> tList, @NonNull int layoutId) {
+    public SmartAdapter1(List<T> tList, @NonNull int layoutId) {
         super(layoutId);
         this.tList = tList;
     }
@@ -36,7 +39,7 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
      * @param layoutId
      * @param recyclerView
      */
-    public SmartAdapter(List<T> tList,int layoutId, RecyclerView recyclerView) {
+    public SmartAdapter1(List<T> tList, int layoutId, RecyclerView recyclerView) {
         super(layoutId);
         this.tList = tList;
 
@@ -53,7 +56,27 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 
 
     public void setHeaderView(View headerView) {
-        this.headerView = headerView;
+        headerViews.add(headerView);
+    }
+
+    public void setFooterView(View footerView) {
+        footerViews.add(footerView);
+    }
+
+    public void setOnSmartLoadMoreListener(OnSmartLoadMoreListener onSmartLoadMoreListener) {
+        this.onSmartLoadMoreListener = onSmartLoadMoreListener;
+    }
+
+    public void setOnSmartRefreshListener(OnSmartRefreshListener onSmartRefreshListener) {
+        this.onSmartRefreshListener = onSmartRefreshListener;
+    }
+
+    public void setRefreshView(View refreshView) {
+        this.refreshView = refreshView;
+    }
+
+    public void setLoadMoreView(View loadMoreView) {
+        this.loadMoreView = loadMoreView;
     }
 
     public boolean isHeader(int position) {
@@ -62,11 +85,6 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 
     @Override
     public int getItemViewType(int position) {
-        if (headerView != null && position == 0) {
-            return VIEW_HEADER;
-        } else {
-            return VIEW_ITEM;
-        }
     }
 
     @Override
