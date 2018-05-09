@@ -27,8 +27,9 @@ public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> 
     }
 
     public void addDate(List<T> tList) {
-        tList.addAll(tList);
-        notifyDataSetChanged();
+        int stPosition = this.tList.size() - 1;
+        this.tList.addAll(tList);
+        notifyItemChanged(stPosition, this.tList.size() - 1);
     }
 
     @Override
