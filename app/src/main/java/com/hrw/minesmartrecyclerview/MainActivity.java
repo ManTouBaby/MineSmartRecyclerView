@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         View view3 = LayoutInflater.from(this).inflate(R.layout.item_footer, null);
         View view4 = LayoutInflater.from(this).inflate(R.layout.item_footer, null);
         View view5 = LayoutInflater.from(this).inflate(R.layout.item_footer, null);
-        View mainView1 = LayoutInflater.from(this).inflate(R.layout.item_list_mainactivity, null);
-        View mainView2 = LayoutInflater.from(this).inflate(R.layout.item_list_mainactivity_1pic, null);
-        smartAdapter.setItemType(0, mainView1);
-        smartAdapter.setItemType(1, mainView2);
+//        View mainView1 = LayoutInflater.from(this).inflate(R.layout.item_list_mainactivity, null);
+//        View mainView2 = LayoutInflater.from(this).inflate(R.layout.item_list_mainactivity_1pic, null);
+//        smartAdapter.setItemType(0, mainView1);
+//        smartAdapter.setItemType(1, mainView2);
         smartAdapter.setHeaderView(view, view1, view2);
         smartAdapter.setFooterView(view3, view4, view5);
         recyclerView.setAdapter(smartAdapter);
