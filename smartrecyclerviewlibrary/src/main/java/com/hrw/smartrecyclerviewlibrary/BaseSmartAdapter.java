@@ -22,14 +22,18 @@ public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> 
     }
 
     public void setDate(List<T> tList) {
-        this.tList = tList;
-        notifyDataSetChanged();
+        if (tList != null) {
+            this.tList = tList;
+            notifyDataSetChanged();
+        }
     }
 
     public void addDate(List<T> tList) {
-        int stPosition = this.tList.size() - 1;
-        this.tList.addAll(tList);
-        notifyItemChanged(stPosition, this.tList.size() - 1);
+        if (tList != null) {
+            int stPosition = this.tList.size() - 1;
+            this.tList.addAll(tList);
+            notifyItemChanged(stPosition, this.tList.size() - 1);
+        }
     }
 
     @Override
@@ -41,23 +45,9 @@ public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> 
     @Override
     public void onBindViewHolder(SmartVH holder, final int position) {
         bindView(holder, tList.get(position), position);
-        holder.getItemView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onSmartItemClickListener != null) {
-                    onSmartItemClickListener.onSmartItemClick(tList.get(position), position);
-                }
-            }
-        });
     }
 
     protected abstract void bindView(SmartVH holder, T t, int position);
-
-    OnSmartItemClickListener onSmartItemClickListener;
-
-    public void setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
-        this.onSmartItemClickListener = onSmartItemClickListener;
-    }
 
 
 }

@@ -128,9 +128,17 @@ public abstract class SmartAdapter1<T> extends BaseSmartAdapter<T> {
     }
 
     @Override
-    public void onBindViewHolder(SmartVH holder, int position) {
+    public void onBindViewHolder(SmartVH holder, final int position) {
         if (position >= headerViews.size() && position < (headerViews.size() + tList.size())) {
             bindView(holder, tList.get(getRealPosition(holder)), position);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onSmartItemClickListener != null) {
+                        onSmartItemClickListener.onSmartItemClick(tList.get(position), position);
+                    }
+                }
+            });
         }
     }
 
@@ -165,4 +173,9 @@ public abstract class SmartAdapter1<T> extends BaseSmartAdapter<T> {
         return footerViews.size();
     }
 
+    OnSmartItemClickListener onSmartItemClickListener;
+
+    public void setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
+        this.onSmartItemClickListener = onSmartItemClickListener;
+    }
 }

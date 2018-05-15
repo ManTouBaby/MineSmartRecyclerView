@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 //        smartAdapter.setFooterView();
-
-
         View view = LayoutInflater.from(this).inflate(R.layout.item_header, null);
         View view1 = LayoutInflater.from(this).inflate(R.layout.item_header, null);
         View view2 = LayoutInflater.from(this).inflate(R.layout.item_header, null);
@@ -60,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(smartAdapter);
         smartAdapter.setOnSmartItemClickListener(new OnSmartItemClickListener<TestBO>() {
             @Override
-            public void onSmartItemClick(TestBO s, int position) {
-
+            public void onSmartItemClick(TestBO testBO, int position) {
+                System.out.println("result-----" + testBO.getName());
             }
         });
     }

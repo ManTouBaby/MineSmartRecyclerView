@@ -109,10 +109,6 @@ public class SmartVH extends RecyclerView.ViewHolder {
         return getViewById(idRes);
     }
 
-    public View getView(@IdRes int idRes) {
-//        View view = itemView.findViewById(idRes);
-        return getViewById(idRes);
-    }
 
     public View getItemView() {
         return itemView;
@@ -120,7 +116,7 @@ public class SmartVH extends RecyclerView.ViewHolder {
 
     Map<Integer, View> viewMap = new HashMap<>();
 
-    private <V extends View> V getViewById(int idRes) {
+    public  <V extends View> V getViewById(int idRes) {
         View view = viewMap.get(idRes);
         if (view == null) {
             view = itemView.findViewById(idRes);
