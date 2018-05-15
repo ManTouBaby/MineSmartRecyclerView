@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.hrw.smartrecyclerviewlibrary.OnSmartItemClickListener;
-import com.hrw.smartrecyclerviewlibrary.SmartAdapter1;
+import com.hrw.smartrecyclerviewlibrary.SmartAdapter;
 import com.hrw.smartrecyclerviewlibrary.SmartItemDecoration;
 import com.hrw.smartrecyclerviewlibrary.SmartVH;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             }
             strings.add(testBO);
         }
-        SmartAdapter1<TestBO> smartAdapter = new SmartAdapter1<TestBO>(strings, R.layout.item_list_mainactivity) {
+        SmartAdapter<TestBO> smartAdapter = new SmartAdapter<TestBO>(strings, R.layout.item_list_mainactivity) {
             @Override
             protected void bindView(SmartVH holder, TestBO o, int position) {
                 holder.getText(R.id.item_list_name).setText(o.getName());

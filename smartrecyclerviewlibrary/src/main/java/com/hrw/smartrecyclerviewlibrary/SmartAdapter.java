@@ -1,25 +1,36 @@
 package com.hrw.smartrecyclerviewlibrary;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author:MtBaby
  * @date:2017/09/17 14:56
- * @desc:
+ * @desc: 齐聚添加多头部、多底部、多item样式、下拉刷新动画、上了加载动画为一体的超级适配器
  */
 
 public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
+    //    List<View> headerViews = new ArrayList<>();
+//    List<View> footerViews = new ArrayList<>();
+//    List<View> itemViews = new ArrayList<>();
+    List<Integer> headerTypes = new ArrayList<>();
+    List<Integer> footerTypes = new ArrayList<>();
+    List<Integer> itemTypes = new ArrayList<>();
+    Map<Integer, View> headerViews = new HashMap<>();
+    Map<Integer, View> footerViews = new HashMap<>();
+    Map<Integer, View> itemViews = new HashMap<>();
+    int VIEW_CONTENT = 0x1000;
+    boolean isInstanceOfBaseSmartBO = false;
 
-    private View headerView;
-
-    private final static int VIEW_HEADER = 0;
-    private final static int VIEW_ITEM = 1;
 
     public SmartAdapter(@NonNull int layoutId) {
         super(layoutId);
@@ -36,7 +47,7 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
      * @param layoutId
      * @param recyclerView
      */
-    public SmartAdapter(List<T> tList,int layoutId, RecyclerView recyclerView) {
+    public SmartAdapter(List<T> tList, int layoutId, RecyclerView recyclerView) {
         super(layoutId);
         this.tList = tList;
 
@@ -52,9 +63,34 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
     }
 
 
-    public void setHeaderView(View headerView) {
-        this.headerView = headerView;
+    public void setItemType(@IntRange(from = 0, to = 100) int itemType, @NonNull View view) {
+        if (tList.size() > 0) {
+            T t = tList.get(0);
+            if (t instanceof BaseSmartBO) {
+                BaseSmartBO smartBO = (BaseSmartBO) t;
+                itemTypes.add(itemType);
+                itemViews.put(smartBO.getItemType(), view);
+                isInstanceOfBaseSmartBO = true;
+            } else {
+                new Throwable("<T> extent BaseSmartBO must before used setItemType()");
+            }
+        }
     }
+
+    public void setHeaderView(View... headerView) {
+        for (View view : headerView) {
+            headerTypes.add(200 + headerViews.size());
+            headerViews.put(200 + headerViews.size(), view);
+        }
+    }
+
+    public void setFooterView(View... footerView) {
+        for (View view : footerView) {
+            footerTypes.add(300 + footerViews.size());
+            footerViews.put(300 + footerViews.size(), view);
+        }
+    }
+
 
     public boolean isHeader(int position) {
         return position == 0;
@@ -62,49 +98,84 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 
     @Override
     public int getItemViewType(int position) {
-        if (headerView != null && position == 0) {
-            return VIEW_HEADER;
+        if (position < headerViews.size()) {
+            return headerTypes.get(position);
+        } else if (position >= headerViews.size() + tList.size()) {
+            return footerTypes.get(position - (headerViews.size() + tList.size()));
         } else {
-            return VIEW_ITEM;
+            if (isInstanceOfBaseSmartBO) {
+                BaseSmartBO t = (BaseSmartBO) tList.get(position - headerViews.size());
+                return t.getItemType();
+            } else {
+                return VIEW_CONTENT;
+            }
         }
     }
 
     @Override
     public SmartVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (headerView != null && viewType == VIEW_HEADER) {
-            return new SmartVH(headerView);
+        if (headerViews.containsKey(viewType)) {
+            return new SmartVH(headerViews.get(viewType));
+        } else if (footerViews.containsKey(viewType)) {
+            return new SmartVH(footerViews.get(viewType));
+        } else if (itemViews.containsKey(viewType)) {
+            return new SmartVH(itemViews.get(viewType));
         } else {
             View view = View.inflate(parent.getContext(), layoutId, null);
             return new SmartVH(view);
         }
+
     }
 
     @Override
-    public void onBindViewHolder(SmartVH holder, int position) {
-        if (getItemViewType(position) == VIEW_HEADER) return;
-        bindView(holder, tList.get(getRealPosition(holder)), position);
+    public void onBindViewHolder(SmartVH holder, final int position) {
+        if (position >= headerViews.size() && position < (headerViews.size() + tList.size())) {
+            bindView(holder, tList.get(getRealPosition(holder)), position);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onSmartItemClickListener != null) {
+                        onSmartItemClickListener.onSmartItemClick(tList.get(position), position);
+                    }
+                }
+            });
+        }
     }
 
     private int getRealPosition(RecyclerView.ViewHolder holder) {
         int position = holder.getLayoutPosition();
-        return headerView == null ? position : position - 1;
+        return headerViews.size() > 0 ? position - headerViews.size() : position;
     }
 
 
     @Override
     public int getItemCount() {
-        return headerView == null ? tList.size() : tList.size() + 1;
+        int itemCount = tList.size();
+        if (isExistHeader()) itemCount += getHeaderCount();
+        if (isExistFooter()) itemCount += getFooterCount();
+        return itemCount;
     }
 
 
     public boolean isExistHeader() {
-        return headerView != null;
+        return headerViews.size() > 0;
     }
 
     public int getHeaderCount() {
-        if (headerView != null) return 1;
-        return 0;
+        return headerViews.size();
     }
 
+    public boolean isExistFooter() {
+        return footerViews.size() > 0;
+    }
 
+    public int getFooterCount() {
+        return footerViews.size();
+    }
+
+    OnSmartItemClickListener onSmartItemClickListener;
+
+    public void setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
+        this.onSmartItemClickListener = onSmartItemClickListener;
+    }
 }
