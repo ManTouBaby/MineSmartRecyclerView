@@ -4,6 +4,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -121,7 +122,7 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         } else if (itemViews.containsKey(viewType)) {
             return new SmartVH(itemViews.get(viewType));
         } else {
-            View view = View.inflate(parent.getContext(), layoutId, null);
+            View view = LayoutInflater.from(parent.getContext()).inflate(layoutId,parent,false);
             return new SmartVH(view);
         }
 
