@@ -13,7 +13,9 @@ import com.hrw.smartrecyclerviewlibrary.SmartItemDecoration;
 import com.hrw.smartrecyclerviewlibrary.SmartVH;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
         View view3 = LayoutInflater.from(this).inflate(R.layout.item_footer, null);
         View view4 = LayoutInflater.from(this).inflate(R.layout.item_footer, null);
         View view5 = LayoutInflater.from(this).inflate(R.layout.item_footer, null);
-//        View mainView1 = LayoutInflater.from(this).inflate(R.layout.item_list_mainactivity, null);
-//        View mainView2 = LayoutInflater.from(this).inflate(R.layout.item_list_mainactivity_1pic, null);
-//        smartAdapter.setItemType(0, mainView1);
-//        smartAdapter.setItemType(1, mainView2);
+        View mainView1 = LayoutInflater.from(this).inflate(R.layout.item_list_mainactivity, null);
+        View mainView2 = LayoutInflater.from(this).inflate(R.layout.item_list_mainactivity_1pic, null);
+        Map<Integer, Integer> viewMap = new HashMap<>();
+        viewMap.put(0, R.layout.item_list_mainactivity);
+        viewMap.put(1, R.layout.item_list_mainactivity_1pic);
+        smartAdapter.setItemTypes(viewMap);
         smartAdapter.setHeaderView(view, view1, view2);
         smartAdapter.setFooterView(view3, view4, view5);
         recyclerView.setAdapter(smartAdapter);
