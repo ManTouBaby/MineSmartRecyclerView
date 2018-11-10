@@ -1,6 +1,7 @@
 package com.hrw.smartrecyclerviewlibrary;
 
 import android.support.annotation.IntRange;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +26,11 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 //    List<View> itemViews = new ArrayList<>();
     List<Integer> headerTypes = new ArrayList<>();
     List<Integer> footerTypes = new ArrayList<>();
-    List<Integer> itemTypes = new ArrayList<>();
     Map<Integer, View> headerViews = new HashMap<>();
     Map<Integer, View> footerViews = new HashMap<>();
-    Map<Integer, View> itemViews = new HashMap<>();
+    Map<Integer, Integer> itemViews = new HashMap<>();
     int VIEW_CONTENT = 0x1000;
-    boolean isInstanceOfBaseSmartBO = false;
+    boolean isUseTypeItem = false;
 
 
     public SmartAdapter(@NonNull int layoutId) {
@@ -64,18 +64,9 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
     }
 
 
-    public void setItemType(@IntRange(from = 0, to = 100) int itemType, @NonNull View view) {
-        if (tList.size() > 0) {
-            T t = tList.get(0);
-            if (t instanceof BaseSmartBO) {
-                BaseSmartBO smartBO = (BaseSmartBO) t;
-                itemTypes.add(itemType);
-                itemViews.put(smartBO.getItemType(), view);
-                isInstanceOfBaseSmartBO = true;
-            } else {
-                new Throwable("<T> extent BaseSmartBO must before used setItemType()");
-            }
-        }
+    public void setItemType(@IntRange(from = 0, to = 100) int itemType, @LayoutRes int layoutRes) {
+        isUseTypeItem = true;
+        if (!itemViews.containsKey(itemType)) itemViews.put(itemType, layoutRes);
     }
 
     public void setHeaderView(View... headerView) {
@@ -104,9 +95,9 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         } else if (position >= headerViews.size() + tList.size()) {
             return footerTypes.get(position - (headerViews.size() + tList.size()));
         } else {
-            if (isInstanceOfBaseSmartBO) {
-                BaseSmartBO t = (BaseSmartBO) tList.get(position - headerViews.size());
-                return t.getItemType();
+            T t = tList.get(position - headerViews.size());
+            if (isUseTypeItem && t instanceof BaseSmartBO) {
+                return ((BaseSmartBO) t).getItemType();
             } else {
                 return VIEW_CONTENT;
             }
@@ -120,9 +111,9 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         } else if (footerViews.containsKey(viewType)) {
             return new SmartVH(footerViews.get(viewType));
         } else if (itemViews.containsKey(viewType)) {
-            return new SmartVH(itemViews.get(viewType));
+            return new SmartVH(LayoutInflater.from(parent.getContext()).inflate(itemViews.get(viewType), parent, false));
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(layoutId,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
             return new SmartVH(view);
         }
 
