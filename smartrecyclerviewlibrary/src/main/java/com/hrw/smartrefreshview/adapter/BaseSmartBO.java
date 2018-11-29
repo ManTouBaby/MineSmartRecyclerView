@@ -1,4 +1,4 @@
-package com.hrw.smartrecyclerviewlibrary;
+package com.hrw.smartrefreshview.adapter;
 
 /**
  * @desc:

@@ -1,4 +1,4 @@
-package com.hrw.smartrecyclerviewlibrary;
+package com.hrw.smartrefreshview.refresh;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -28,6 +28,13 @@ public class SmartRefreshView extends ViewGroup {
         int childCount = getChildCount();
         if (childCount > 1) new Throwable("the SmartRefreshView can only hold one child view");
         view = getChildAt(0);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//        NestedScrollView
+
     }
 
     @Override

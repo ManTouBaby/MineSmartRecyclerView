@@ -1,4 +1,4 @@
-package com.hrw.smartrecyclerviewlibrary;
+package com.hrw.smartrefreshview.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

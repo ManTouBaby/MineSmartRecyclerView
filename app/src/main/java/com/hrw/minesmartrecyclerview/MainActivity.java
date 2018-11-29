@@ -7,10 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.hrw.smartrecyclerviewlibrary.OnSmartItemClickListener;
-import com.hrw.smartrecyclerviewlibrary.SmartAdapter;
-import com.hrw.smartrecyclerviewlibrary.SmartItemDecoration;
-import com.hrw.smartrecyclerviewlibrary.SmartVH;
+import com.hrw.smartrefreshview.listener.OnSmartItemClickListener;
+import com.hrw.smartrefreshview.adapter.SmartAdapter;
+import com.hrw.smartrefreshview.adapter.SmartItemDecoration;
+import com.hrw.smartrefreshview.adapter.SmartVH;
 
 import java.util.ArrayList;
 import java.util.List;
