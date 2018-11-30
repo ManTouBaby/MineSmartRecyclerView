@@ -23,9 +23,6 @@ import java.util.Map;
  */
 
 public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
-    //    List<View> headerViews = new ArrayList<>();
-//    List<View> footerViews = new ArrayList<>();
-//    List<View> itemViews = new ArrayList<>();
     List<Integer> headerTypes = new ArrayList<>();
     List<Integer> footerTypes = new ArrayList<>();
     Map<Integer, View> headerViews = new HashMap<>();
@@ -37,11 +34,6 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 
     public SmartAdapter(@NonNull int layoutId) {
         super(layoutId);
-    }
-
-    public SmartAdapter(List<T> tList, @NonNull int layoutId) {
-        super(layoutId);
-        this.tList = tList;
     }
 
     /**
@@ -65,24 +57,34 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         }
     }
 
-
-    public void setItemType(@IntRange(from = 0, to = 100) int itemType, @LayoutRes int layoutRes) {
-        isUseTypeItem = true;
-        if (!itemViews.containsKey(itemType)) itemViews.put(itemType, layoutRes);
+    public SmartAdapter(T[] dates, @NonNull int layoutId) {
+        super(dates, layoutId);
     }
 
-    public void setHeaderView(View... headerView) {
+    public SmartAdapter(List<T> tList, @NonNull int layoutId) {
+        super(tList, layoutId);
+    }
+
+    public SmartAdapter setItemType(@IntRange(from = 0, to = 100) int itemType, @LayoutRes int layoutRes) {
+        isUseTypeItem = true;
+        if (!itemViews.containsKey(itemType)) itemViews.put(itemType, layoutRes);
+        return this;
+    }
+
+    public SmartAdapter setHeaderView(View... headerView) {
         for (View view : headerView) {
             headerTypes.add(200 + headerViews.size());
             headerViews.put(200 + headerViews.size(), view);
         }
+        return this;
     }
 
-    public void setFooterView(View... footerView) {
+    public SmartAdapter setFooterView(View... footerView) {
         for (View view : footerView) {
             footerTypes.add(300 + footerViews.size());
             footerViews.put(300 + footerViews.size(), view);
         }
+        return this;
     }
 
 
@@ -169,7 +171,8 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 
     OnSmartItemClickListener onSmartItemClickListener;
 
-    public void setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
+    public SmartAdapter setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
         this.onSmartItemClickListener = onSmartItemClickListener;
+        return this;
     }
 }

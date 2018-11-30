@@ -1,5 +1,7 @@
 package com.hrw.smartrefreshview.adapter;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,23 @@ import java.util.List;
 public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> {
     protected List<T> tList = new ArrayList<>();
     protected int layoutId;
+    protected Context mContent;
 
     public BaseSmartAdapter(int layoutId) {
+        this.layoutId = layoutId;
+    }
+
+    public BaseSmartAdapter(List<T> tList, @NonNull int layoutId) {
+        this.tList = tList;
+        this.layoutId = layoutId;
+    }
+
+    public BaseSmartAdapter(T[] dates, int layoutId) {
+        List<T> tList = new ArrayList<>();
+        for (T t : dates) {
+            tList.add(t);
+        }
+        this.tList = tList;
         this.layoutId = layoutId;
     }
 
@@ -38,6 +55,7 @@ public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> 
 
     @Override
     public SmartVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContent = parent.getContext();
         View view = View.inflate(parent.getContext(), layoutId, null);
         return new SmartVH(view);
     }

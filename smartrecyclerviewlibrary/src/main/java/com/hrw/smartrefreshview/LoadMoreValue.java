@@ -1,4 +1,4 @@
-package com.hrw.smartrefreshview.refresh;
+package com.hrw.smartrefreshview;
 
 /**
  * @version 1.0.0
