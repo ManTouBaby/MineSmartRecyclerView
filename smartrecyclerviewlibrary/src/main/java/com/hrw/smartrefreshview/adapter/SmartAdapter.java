@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hrw.smartrefreshview.listener.OnSmartItemChildClickListener;
 import com.hrw.smartrefreshview.listener.OnSmartItemClickListener;
 
 import java.util.ArrayList;
@@ -169,10 +170,27 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         return footerViews.size();
     }
 
+    protected void addChildClickListener(final View view, final T t, final int position) {
+        if (view != null) view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onSmartItemChildClickListener != null) {
+                    onSmartItemChildClickListener.onSmartItemClick(view, t, position);
+                }
+            }
+        });
+    }
+
     OnSmartItemClickListener onSmartItemClickListener;
+    OnSmartItemChildClickListener onSmartItemChildClickListener;
 
     public SmartAdapter setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
         this.onSmartItemClickListener = onSmartItemClickListener;
+        return this;
+    }
+
+    public SmartAdapter setOnSmartItemChildClickListener(OnSmartItemChildClickListener<T> onSmartItemChildClickListener) {
+        this.onSmartItemChildClickListener = onSmartItemChildClickListener;
         return this;
     }
 }

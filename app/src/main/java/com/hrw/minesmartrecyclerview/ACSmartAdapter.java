@@ -7,10 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.hrw.smartrefreshview.adapter.SmartAdapter;
 import com.hrw.smartrefreshview.adapter.SmartItemDecoration;
 import com.hrw.smartrefreshview.adapter.SmartVH;
+import com.hrw.smartrefreshview.listener.OnSmartItemChildClickListener;
 import com.hrw.smartrefreshview.listener.OnSmartItemClickListener;
 
 import java.util.ArrayList;
@@ -46,6 +48,9 @@ public class ACSmartAdapter extends AppCompatActivity {
             @Override
             protected void bindView(SmartVH holder, TestBO o, int position) {
                 holder.getText(R.id.item_list_name).setText(o.getName());
+                addChildClickListener(holder.getViewById(R.id.iv_img_01), o, position);
+                addChildClickListener(holder.getViewById(R.id.iv_img_02), o, position);
+                addChildClickListener(holder.getViewById(R.id.iv_img_03), o, position);
             }
         };
         View view = LayoutInflater.from(this).inflate(R.layout.item_header, null);
@@ -64,6 +69,22 @@ public class ACSmartAdapter extends AppCompatActivity {
             @Override
             public void onSmartItemClick(TestBO testBO, int position) {
                 System.out.println("result-----" + testBO.getName());
+            }
+        });
+        smartAdapter.setOnSmartItemChildClickListener(new OnSmartItemChildClickListener<TestBO>() {
+            @Override
+            public void onSmartItemClick(View view, TestBO testBO, int position) {
+                switch (view.getId()) {
+                    case R.id.iv_img_01:
+                        Toast.makeText(ACSmartAdapter.this, "单击图片一", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.iv_img_02:
+                        Toast.makeText(ACSmartAdapter.this, "单击图片二", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.iv_img_03:
+                        Toast.makeText(ACSmartAdapter.this, "单击图片三", Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
         });
     }
