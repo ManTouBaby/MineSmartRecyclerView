@@ -52,6 +52,6 @@
             android:scaleType="fitXY"
             android:src="@mipmap/ic_image_bg" />
 
-
+        
     </LinearLayout>
 </RelativeLayout>

@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.hrw.smartrefreshview.adapter.SmartAdapter;
-import com.hrw.smartrefreshview.adapter.SmartItemDecoration;
-import com.hrw.smartrefreshview.adapter.SmartVH;
-import com.hrw.smartrefreshview.listener.OnSmartItemClickListener;
+import com.hrw.smartview.adapter.SmartAdapter;
+import com.hrw.smartview.adapter.SmartItemDecoration;
+import com.hrw.smartview.adapter.SmartVH;
+import com.hrw.smartview.listener.OnSmartItemClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        RecyclerView recyclerView = findViewById(R.id.rl_goto_activity);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rl_goto_activity);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new SmartItemDecoration());
         recyclerView.setHasFixedSize(true);

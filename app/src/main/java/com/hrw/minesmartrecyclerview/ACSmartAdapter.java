@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.hrw.smartrefreshview.adapter.SmartAdapter;
-import com.hrw.smartrefreshview.adapter.SmartItemDecoration;
-import com.hrw.smartrefreshview.adapter.SmartVH;
-import com.hrw.smartrefreshview.listener.OnSmartItemChildClickListener;
-import com.hrw.smartrefreshview.listener.OnSmartItemClickListener;
+import com.hrw.smartview.adapter.SmartAdapter;
+import com.hrw.smartview.adapter.SmartItemDecoration;
+import com.hrw.smartview.adapter.SmartVH;
+import com.hrw.smartview.listener.OnSmartItemChildClickListener;
+import com.hrw.smartview.listener.OnSmartItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class ACSmartAdapter extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_smart_adater_layout);
-        RecyclerView recyclerView = findViewById(R.id.rv_show);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_show);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SmartItemDecoration());
