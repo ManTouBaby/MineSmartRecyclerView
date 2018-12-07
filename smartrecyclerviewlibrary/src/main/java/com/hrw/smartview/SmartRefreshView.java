@@ -2,8 +2,10 @@ package com.hrw.smartview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.hrw.smartview.refresh.loadcontent.BaseLoadContentView;
 import com.hrw.smartview.refresh.loadmore.BaseLoadMoreView;
@@ -48,8 +50,9 @@ public class SmartRefreshView extends ViewGroup {
 
         refreshView = new NormalRefreshView(mContext);
         loadMoreView = new NormalLoadMoreView(mContext);
-        addView(refreshView.getView(), 0);
-        addView(loadMoreView.getView(), 2);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        addView(refreshView.getView(), 0, layoutParams);
+        addView(loadMoreView.getView(), 2, layoutParams);
 
         int childCount = getChildCount();
         if (childCount > 3) new Throwable("the SmartRefreshView can only hold one child view");
@@ -59,8 +62,19 @@ public class SmartRefreshView extends ViewGroup {
                 contentView = view;
             }
         }
+    }
 
-
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (contentView == null) {
+            TextView errorView = new TextView(mContext);
+            errorView.setTextColor(0Xffff6600);
+            errorView.setGravity(Gravity.CENTER);
+            errorView.setText("The contentView is empty in SmartRefreshView");
+            LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            addView(errorView, 1, layoutParams);
+        }
     }
 
     @Override

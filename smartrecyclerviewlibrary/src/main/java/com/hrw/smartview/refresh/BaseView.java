@@ -23,5 +23,7 @@ public interface BaseView {
      */
     int getVisitHeight();
 
+    void startAnimate();
 
+    void stopAnimate();
 }

@@ -13,7 +13,7 @@ import com.hrw.smartview.refresh.RefreshStatus;
  * @date:2018/11/29 18:49
  * @desc:
  */
-public class NormalRefreshView extends RelativeLayout implements BaseRefreshView{
+public class NormalRefreshView extends RelativeLayout implements BaseRefreshView {
     public NormalRefreshView(Context context) {
         super(context);
     }
@@ -32,9 +32,29 @@ public class NormalRefreshView extends RelativeLayout implements BaseRefreshView
         return 0;
     }
 
+    @Override
+    public void startAnimate() {
+
+    }
 
     @Override
-    public void setRefreshStatus(RefreshStatus refreshStatus) {
+    public void stopAnimate() {
 
+    }
+
+
+    @Override
+    public void setRefreshStatus(RefreshStatus refreshStatus, float scrollY) {
+        switch (refreshStatus) {
+            case REFRESHING://正在刷新
+                break;
+            case COMPLETE://刷新完成
+                break;
+            case LET_SLIP://松开立即刷新
+                break;
+            case PULL_DOWN://下拉可以刷新
+                
+                break;
+        }
     }
 }

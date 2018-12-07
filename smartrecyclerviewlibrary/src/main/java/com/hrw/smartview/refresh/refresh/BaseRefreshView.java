@@ -10,5 +10,5 @@ import com.hrw.smartview.refresh.RefreshStatus;
  * @desc:
  */
 public interface BaseRefreshView extends BaseView {
-    void setRefreshStatus(RefreshStatus refreshStatus);
+    void setRefreshStatus(RefreshStatus refreshStatus,float scrollY);
 }
