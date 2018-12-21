@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.hrw.smartview.listener.OnSmartItemChildClickListener;
 import com.hrw.smartview.listener.OnSmartItemClickListener;
+import com.hrw.smartview.listener.OnSmartItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,6 +137,15 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
                     }
                 }
             });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (onSmartItemLongClickListener != null) {
+                        onSmartItemLongClickListener.onSmartItemLongClick(tList.get(getRealPosition(holder)), getRealPosition(holder));
+                    }
+                    return false;
+                }
+            });
         }
     }
 
@@ -182,7 +192,13 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
     }
 
     OnSmartItemClickListener onSmartItemClickListener;
+    OnSmartItemLongClickListener onSmartItemLongClickListener;
     OnSmartItemChildClickListener onSmartItemChildClickListener;
+
+    public SmartAdapter setOnSmartItemLongClickListener(OnSmartItemLongClickListener<T> onSmartItemLongClickListener) {
+        this.onSmartItemLongClickListener = onSmartItemLongClickListener;
+        return this;
+    }
 
     public SmartAdapter setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
         this.onSmartItemClickListener = onSmartItemClickListener;

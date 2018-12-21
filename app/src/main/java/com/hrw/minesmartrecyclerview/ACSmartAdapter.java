@@ -14,6 +14,7 @@ import com.hrw.smartview.adapter.SmartItemDecoration;
 import com.hrw.smartview.adapter.SmartVH;
 import com.hrw.smartview.listener.OnSmartItemChildClickListener;
 import com.hrw.smartview.listener.OnSmartItemClickListener;
+import com.hrw.smartview.listener.OnSmartItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,12 @@ public class ACSmartAdapter extends AppCompatActivity {
             @Override
             public void onSmartItemClick(TestBO testBO, int position) {
                 System.out.println("result-----" + testBO.getName());
+            }
+        });
+        smartAdapter.setOnSmartItemLongClickListener(new OnSmartItemLongClickListener<TestBO>() {
+            @Override
+            public void onSmartItemLongClick(TestBO testBO, int position) {
+                System.out.println("测试长按:" + testBO.getName());
             }
         });
         smartAdapter.setOnSmartItemChildClickListener(new OnSmartItemChildClickListener<TestBO>() {
