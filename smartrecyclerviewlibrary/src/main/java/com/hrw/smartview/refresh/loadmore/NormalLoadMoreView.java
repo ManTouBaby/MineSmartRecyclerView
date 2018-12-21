@@ -36,4 +36,14 @@ public class NormalLoadMoreView extends RelativeLayout implements BaseLoadMoreVi
     public int getVisitHeight() {
         return 0;
     }
+
+    @Override
+    public void startAnimate() {
+
+    }
+
+    @Override
+    public void stopAnimate() {
+
+    }
 }

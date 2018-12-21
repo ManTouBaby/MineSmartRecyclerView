@@ -44,6 +44,7 @@ public class SmartRefreshView extends ViewGroup {
     }
 
 
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -80,7 +81,6 @@ public class SmartRefreshView extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
     }
 
     @Override
