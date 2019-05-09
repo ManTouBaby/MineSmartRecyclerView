@@ -45,7 +45,7 @@ public class ACSmartAdapter extends AppCompatActivity {
             }
             strings.add(testBO);
         }
-        SmartAdapter<TestBO> smartAdapter = new SmartAdapter<TestBO>(R.layout.item_list_mainactivity) {
+        final SmartAdapter<TestBO> smartAdapter = new SmartAdapter<TestBO>(R.layout.item_list_mainactivity) {
             @Override
             protected void bindView(SmartVH holder, TestBO o, int position) {
                 holder.getText(R.id.item_list_name).setText(o.getName());
@@ -76,6 +76,7 @@ public class ACSmartAdapter extends AppCompatActivity {
             @Override
             public void onSmartItemLongClick(TestBO testBO, int position) {
                 System.out.println("测试长按:" + testBO.getName());
+                smartAdapter.addData(position,testBO);
             }
         });
         smartAdapter.setOnSmartItemChildClickListener(new OnSmartItemChildClickListener<TestBO>() {

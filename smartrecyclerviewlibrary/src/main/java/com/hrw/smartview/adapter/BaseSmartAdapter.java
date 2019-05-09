@@ -45,13 +45,54 @@ public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> 
         }
     }
 
-    public void addDate(List<T> tList) {
+    public void addData(T data) {
         if (tList != null) {
             int stPosition = this.tList.size() - 1;
-            this.tList.addAll(tList);
-            notifyItemChanged(stPosition, this.tList.size() - 1);
+            addData(stPosition, data);
         }
     }
+
+    public void addData(int position, T data) {
+        if (tList != null && position >= 0) {
+            this.tList.add(position, data);
+            notifyItemRangeInserted(position, 1);
+        }
+    }
+
+    public void addDates(List<T> dates) {
+        if (tList != null) {
+            int stPosition = this.tList.size() - 1;
+            addDates(stPosition, dates);
+        }
+    }
+
+    public void addDates(int position, List<T> dates) {
+        if (tList != null && position >= 0) {
+            this.tList.addAll(position, dates);
+            notifyItemRangeInserted(position, dates.size());
+        }
+    }
+
+    public void removeData(int position) {
+        if (tList != null) {
+            this.tList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void removeDates(int startPosition, int endPosition) {
+        if (tList != null) {
+            int removeCount = 0;
+            for (int i = 0; i < tList.size(); i++) {
+                if (i == startPosition && removeCount == endPosition - startPosition) {
+                    this.tList.remove(i);
+                    removeCount++;
+                }
+            }
+            notifyItemMoved(startPosition, endPosition);
+        }
+    }
+
 
     @Override
     public SmartVH onCreateViewHolder(ViewGroup parent, int viewType) {

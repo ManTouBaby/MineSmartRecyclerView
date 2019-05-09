@@ -11,6 +11,9 @@ import com.hrw.smartview.adapter.SmartItemDecoration;
 import com.hrw.smartview.adapter.SmartVH;
 import com.hrw.smartview.listener.OnSmartItemClickListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     enum ActivityEnum {
@@ -40,6 +43,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        List<Integer> integers = new ArrayList<>();
+        integers.add(0);
+        integers.add(1);
+        integers.add(2);
+        integers.add(3);
+        integers.add(4);
+        integers.add(5);
+        integers.add(6);
+        integers.add(7);
+        integers.add(8);
+        integers.add(9);
+        integers.remove(1);
+        integers.remove(1);
+        integers.remove(1);
+        integers.remove(1);
+        integers.remove(1);
+        integers.remove(1);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rl_goto_activity);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

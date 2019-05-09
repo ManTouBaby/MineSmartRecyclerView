@@ -73,6 +73,12 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         return this;
     }
 
+    /**
+     * 设置头部
+     *
+     * @param headerView
+     * @return
+     */
     public SmartAdapter setHeaderView(View... headerView) {
         for (View view : headerView) {
             headerTypes.add(200 + headerViews.size());
@@ -81,6 +87,12 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         return this;
     }
 
+    /**
+     * 设置底部
+     *
+     * @param footerView
+     * @return
+     */
     public SmartAdapter setFooterView(View... footerView) {
         for (View view : footerView) {
             footerTypes.add(300 + footerViews.size());
@@ -89,6 +101,97 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         return this;
     }
 
+    /**
+     * 添加单项数据
+     *
+     * @param data
+     */
+    @Override
+    public void addData(T data) {
+        if (tList != null) {
+            int stPosition = this.tList.size() - 1;
+            stPosition = getDataItemPosition(stPosition);
+            addData(stPosition, data);
+        }
+    }
+
+    /**
+     * 添加指定位置单项数据
+     *
+     * @param position
+     * @param data
+     */
+    @Override
+    public void addData(int position, T data) {
+        if (tList != null && position >= 0) {
+            this.tList.add(position, data);
+            position = getDataItemPosition(position);
+            notifyItemRangeInserted(position, 1);
+        }
+    }
+
+    /**
+     * 添加多项数据
+     *
+     * @param dates
+     */
+    @Override
+    public void addDates(List<T> dates) {
+        if (tList != null) {
+            int stPosition = this.tList.size() - 1;
+            addDates(stPosition, dates);
+        }
+    }
+
+    /**
+     * 添加指定位置多项数据
+     *
+     * @param position
+     * @param dates
+     */
+    @Override
+    public void addDates(int position, List<T> dates) {
+        if (tList != null && position >= 0) {
+            this.tList.addAll(position, dates);
+            position = getDataItemPosition(position);
+            notifyItemRangeInserted(position, dates.size());
+        }
+    }
+
+    /**
+     * 移除指定位置数据
+     *
+     * @param position
+     */
+    @Override
+    public void removeData(int position) {
+        if (tList != null) {
+            removeDates(position, 1);
+        }
+    }
+
+    /**
+     * 移除指定位置多项数据
+     *
+     * @param startPosition
+     * @param itemCount
+     */
+    @Override
+    public void removeDates(int startPosition, int itemCount) {
+
+        if (tList != null) {
+            for (int i = 0; i < itemCount; i++) {
+                this.tList.remove(startPosition);
+            }
+            startPosition = getDataItemPosition(startPosition);
+            notifyItemRangeRemoved(startPosition, itemCount);
+        }
+    }
+
+
+    private int getDataItemPosition(int position) {
+        return headerViews.size() > 0 ? position + headerViews.size() : position;
+    }
 
     public boolean isHeader(int position) {
         return position == 0;
