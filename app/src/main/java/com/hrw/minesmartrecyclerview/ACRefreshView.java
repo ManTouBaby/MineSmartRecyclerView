@@ -20,11 +20,11 @@ public class ACRefreshView extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_smart_refresh_layout);
-        refreshView = (SmartRefreshView) findViewById(R.id.srv_show);
+//        refreshView = (SmartRefreshView) findViewById(R.id.srv_show);
     }
 
     public void onRedrawClick(View view) {
         System.out.println("重绘");
-        refreshView.invalidate();
+//        refreshView.invalidate();
     }
 }
