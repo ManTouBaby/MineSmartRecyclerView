@@ -1,4 +1,4 @@
-package com.hrw.smartrecyclerviewlibrary;
+package com.hrw.smartview.adapter;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
@@ -10,6 +10,10 @@ import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.hrw.smartview.listener.OnSmartItemChildClickListener;
+import com.hrw.smartview.listener.OnSmartItemClickListener;
+import com.hrw.smartview.listener.OnSmartItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +46,6 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
     public SmartAdapter(SparseIntArray itemViews) {
         isUseTypeItem = true;
         this.itemViews = itemViews;
-//        for (int i = 0; i < itemViews.size(); i++) {
-//            if(itemViews.keyAt(i)<=0){
-//                throw new IllegalArgumentException("The key set must be greater than 0");
-//            }
-//        }
     }
 
     /**
@@ -73,6 +72,7 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 
     public void setItemType(@IntRange(from = 0, to = 100) int itemType, @LayoutRes int layoutRes) {
         isUseTypeItem = true;
+        itemViews = new SparseIntArray();
         if (itemViews.get(itemType, -1) == -1) itemViews.put(itemType, layoutRes);
     }
 
@@ -138,6 +138,15 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
                     }
                 }
             });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (onSmartItemLongClickListener != null) {
+                        onSmartItemLongClickListener.onSmartItemLongClick(tList.get(getRealPosition(holder)), getRealPosition(holder));
+                    }
+                    return false;
+                }
+            });
         }
     }
 
@@ -155,6 +164,16 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         return itemCount;
     }
 
+    public void addChildClickListener(final View view, final T o, final int position) {
+        if (view != null && onSmartItemChildClickListener != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onSmartItemChildClickListener.onSmartItemClick(view, o, position);
+                }
+            });
+        }
+    }
 
     public boolean isExistHeader() {
         return headerViews.size() > 0;
@@ -173,8 +192,18 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
     }
 
     private OnSmartItemClickListener onSmartItemClickListener;
+    private OnSmartItemLongClickListener onSmartItemLongClickListener;
+    private OnSmartItemChildClickListener onSmartItemChildClickListener;
 
     public void setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
         this.onSmartItemClickListener = onSmartItemClickListener;
+    }
+
+    public void setOnSmartItemLongClickListener(OnSmartItemLongClickListener<T> onSmartItemLongClickListener) {
+        this.onSmartItemLongClickListener = onSmartItemLongClickListener;
+    }
+
+    public void setOnSmartItemChildClickListener(OnSmartItemChildClickListener<T> smartItemChildClickListener) {
+        this.onSmartItemChildClickListener = smartItemChildClickListener;
     }
 }

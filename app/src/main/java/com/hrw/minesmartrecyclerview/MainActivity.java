@@ -8,10 +8,10 @@ import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.hrw.smartrecyclerviewlibrary.OnSmartItemClickListener;
-import com.hrw.smartrecyclerviewlibrary.SmartAdapter;
-import com.hrw.smartrecyclerviewlibrary.SmartItemDecoration;
-import com.hrw.smartrecyclerviewlibrary.SmartVH;
+import com.hrw.smartview.adapter.SmartAdapter;
+import com.hrw.smartview.adapter.SmartItemDecoration;
+import com.hrw.smartview.adapter.SmartVH;
+import com.hrw.smartview.listener.OnSmartItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +19,36 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     SmartAdapter<TestBO> smartAdapter;
 
+    enum ActivityEnum {
+        AC_REFRESH_VIEW(ACRefreshView.class, "刷新控件"),
+        AC_SMART_ADAPTER(ACSmartAdapter.class, "多动能Adapter");
+
+        ActivityEnum(Class<?> aClass, String info) {
+            mClass = aClass;
+            mInfo = info;
+        }
+
+        private Class<?> mClass;
+        private String mInfo;
+
+        public Class<?> getEnumClass() {
+            return mClass;
+        }
+
+
+        public String getInfo() {
+            return mInfo;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView recyclerView = findViewById(R.id.rv_show);
+
+
+        RecyclerView recyclerView = findViewById(R.id.rl_goto_activity);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SmartItemDecoration());
         List<TestBO> strings = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -65,5 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("result-----" + testBO.getName() + "--" + position);
             }
         });
+
     }
 }

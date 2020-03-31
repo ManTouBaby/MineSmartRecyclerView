@@ -14,6 +14,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.hrw.smartrecyclerviewlibrary.SmartAdapter;
+
 /**
  * @author:ccf008
  * @date:2017/10/12 15:23
