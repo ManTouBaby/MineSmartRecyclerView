@@ -5,14 +5,14 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author:MtBaby
@@ -21,16 +21,13 @@ import java.util.Map;
  */
 
 public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
-    //    List<View> headerViews = new ArrayList<>();
-//    List<View> footerViews = new ArrayList<>();
-//    List<View> itemViews = new ArrayList<>();
-    List<Integer> headerTypes = new ArrayList<>();
-    List<Integer> footerTypes = new ArrayList<>();
-    Map<Integer, View> headerViews = new HashMap<>();
-    Map<Integer, View> footerViews = new HashMap<>();
-    Map<Integer, Integer> itemViews = new HashMap<>();
-    int VIEW_CONTENT = 0x1000;
-    boolean isUseTypeItem = false;
+    private List<Integer> headerTypes = new ArrayList<>();
+    private List<Integer> footerTypes = new ArrayList<>();
+    private SparseArray<View> headerViews = new SparseArray<>();
+    private SparseArray<View> footerViews = new SparseArray<>();
+    private SparseIntArray itemViews;
+    private int VIEW_CONTENT = 0x1000;
+    private boolean isUseTypeItem = false;
 
 
     public SmartAdapter(@NonNull int layoutId) {
@@ -40,6 +37,16 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
     public SmartAdapter(List<T> tList, @NonNull int layoutId) {
         super(layoutId);
         this.tList = tList;
+    }
+
+    public SmartAdapter(SparseIntArray itemViews) {
+        isUseTypeItem = true;
+        this.itemViews = itemViews;
+//        for (int i = 0; i < itemViews.size(); i++) {
+//            if(itemViews.keyAt(i)<=0){
+//                throw new IllegalArgumentException("The key set must be greater than 0");
+//            }
+//        }
     }
 
     /**
@@ -66,7 +73,7 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 
     public void setItemType(@IntRange(from = 0, to = 100) int itemType, @LayoutRes int layoutRes) {
         isUseTypeItem = true;
-        if (!itemViews.containsKey(itemType)) itemViews.put(itemType, layoutRes);
+        if (itemViews.get(itemType, -1) == -1) itemViews.put(itemType, layoutRes);
     }
 
     public void setHeaderView(View... headerView) {
@@ -106,11 +113,11 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
 
     @Override
     public SmartVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (headerViews.containsKey(viewType)) {
+        if (headerViews.get(viewType, null) != null) {
             return new SmartVH(headerViews.get(viewType));
-        } else if (footerViews.containsKey(viewType)) {
+        } else if (footerViews.get(viewType, null) != null) {
             return new SmartVH(footerViews.get(viewType));
-        } else if (itemViews.containsKey(viewType)) {
+        } else if (itemViews.get(viewType, -1) != -1) {
             return new SmartVH(LayoutInflater.from(parent.getContext()).inflate(itemViews.get(viewType), parent, false));
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
@@ -120,14 +127,14 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
     }
 
     @Override
-    public void onBindViewHolder(SmartVH holder, final int position) {
+    public void onBindViewHolder(final SmartVH holder, int position) {
         if (position >= headerViews.size() && position < (headerViews.size() + tList.size())) {
-            bindView(holder, tList.get(getRealPosition(holder)), position);
+            bindView(holder, tList.get(getRealPosition(holder)), getRealPosition(holder));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onSmartItemClickListener != null) {
-                        onSmartItemClickListener.onSmartItemClick(tList.get(position), position);
+                        onSmartItemClickListener.onSmartItemClick(tList.get(getRealPosition(holder)), getRealPosition(holder));
                     }
                 }
             });
@@ -165,7 +172,7 @@ public abstract class SmartAdapter<T> extends BaseSmartAdapter<T> {
         return footerViews.size();
     }
 
-    OnSmartItemClickListener onSmartItemClickListener;
+    private OnSmartItemClickListener onSmartItemClickListener;
 
     public void setOnSmartItemClickListener(OnSmartItemClickListener<T> onSmartItemClickListener) {
         this.onSmartItemClickListener = onSmartItemClickListener;

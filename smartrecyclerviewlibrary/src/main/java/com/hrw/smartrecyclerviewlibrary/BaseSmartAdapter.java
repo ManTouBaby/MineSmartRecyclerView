@@ -17,6 +17,9 @@ public abstract class BaseSmartAdapter<T> extends RecyclerView.Adapter<SmartVH> 
     protected List<T> tList = new ArrayList<>();
     protected int layoutId;
 
+    public BaseSmartAdapter() {
+    }
+
     public BaseSmartAdapter(int layoutId) {
         this.layoutId = layoutId;
     }
