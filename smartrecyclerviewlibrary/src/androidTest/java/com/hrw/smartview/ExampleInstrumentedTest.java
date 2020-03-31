@@ -1,4 +1,4 @@
-package com.hrw.smartrecyclerviewlibrary;
+package com.hrw.smartview;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

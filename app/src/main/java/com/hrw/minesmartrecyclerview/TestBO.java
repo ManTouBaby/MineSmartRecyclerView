@@ -1,6 +1,6 @@
 package com.hrw.minesmartrecyclerview;
 
-import com.hrw.smartrecyclerviewlibrary.BaseSmartBO;
+import com.hrw.smartview.adapter.BaseSmartBO;
 
 /**
  * @desc:

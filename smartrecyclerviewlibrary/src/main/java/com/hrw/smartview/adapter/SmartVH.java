@@ -1,4 +1,4 @@
-package com.hrw.smartrecyclerviewlibrary;
+package com.hrw.smartview.adapter;
 
 import android.content.res.Resources;
 import android.support.annotation.ColorInt;
@@ -65,50 +65,24 @@ public class SmartVH extends RecyclerView.ViewHolder {
     }
 
     public Button getButton(@IdRes int idRes) {
-//        Button button = null;
-//        View view = itemView.findViewById(idRes);
-//        if (view instanceof Button) {
-//            button = (Button) view;
-//        }
         return getViewById(idRes);
     }
 
     public TextView getText(@IdRes int idRes) {
-//        TextView textView = null;
-//        View view = itemView.findViewById(idRes);
-//        if (view instanceof TextView) {
-//            textView = (TextView) view;
-//        }
         return getViewById(idRes);
     }
 
     public LinearLayout getLinearLayout(@IdRes int idRes) {
-//        LinearLayout linearLayout = null;
-//        View view = itemView.findViewById(idRes);
-//        if (view instanceof LinearLayout) {
-//            linearLayout = (LinearLayout) view;
-//        }
         return getViewById(idRes);
     }
 
     public RelativeLayout getRelativeLayout(@IdRes int idRes) {
-//        RelativeLayout relativeLayout = null;
-//        View view = itemView.findViewById(idRes);
-//        if (view instanceof RelativeLayout) {
-//            relativeLayout = (RelativeLayout) view;
-//        }
         return getViewById(idRes);
     }
 
     public ImageView getImage(@IdRes int idRes) {
-//        ImageView imageView = null;
-//        View view = itemView.findViewById(idRes);
-//        if (view instanceof ImageView) {
-//            imageView = (ImageView) view;
-//        }
         return getViewById(idRes);
     }
-
 
     public View getItemView() {
         return itemView;
@@ -116,7 +90,7 @@ public class SmartVH extends RecyclerView.ViewHolder {
 
     Map<Integer, View> viewMap = new HashMap<>();
 
-    public  <V extends View> V getViewById(int idRes) {
+    public <V extends View> V getViewById(int idRes) {
         View view = viewMap.get(idRes);
         if (view == null) {
             view = itemView.findViewById(idRes);

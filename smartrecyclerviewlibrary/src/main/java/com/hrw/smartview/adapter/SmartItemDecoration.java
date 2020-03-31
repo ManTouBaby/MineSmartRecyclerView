@@ -1,4 +1,4 @@
-package com.hrw.smartrecyclerviewlibrary;
+package com.hrw.smartview.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
